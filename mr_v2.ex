@@ -8,6 +8,7 @@ defmodule MapReduce do
         master = self()
         Enum.each(data, fn chunk ->
             spawn fn ->
+                :timer.sleep(1000)
                 one_chunk_result = Enum.reduce(chunk, 0, fn x, acc -> x + acc end)
                 send master, {:ok, one_chunk_result}
             end
