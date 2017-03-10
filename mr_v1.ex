@@ -1,10 +1,11 @@
-# v1: Introducing distributed processing.
+# v1: Introducing distributed processing (on map).
 
 defmodule MapReduce do
     defp map(data) do
-        master = self()
-        Enum.map(data, fn x ->
+        master = self() # save reference to current process
+        Enum.each(data, fn x ->
             spawn fn ->
+                :timer.sleep(1000) # simulate expensive calculation
                 mapped = x * 2
                 send master, {:ok, mapped}
             end 
